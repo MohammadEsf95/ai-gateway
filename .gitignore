@@ -5,6 +5,13 @@
 # Ignore directories that may contain environment files
 .env/
 
+# Exclude .yml files
+.yml
+*.yml
+
+# Ignore directories that may contain environment files
+.yml/
+
 # General Go exclusions
 /bin/
 /build/
