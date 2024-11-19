@@ -4,6 +4,8 @@ import (
 	"auth/entities"
 	"auth/infrastructure"
 	"auth/presentation"
+	"auth/repository"
+	"auth/service"
 	"log"
 	"os"
 
@@ -44,10 +46,16 @@ func main() {
 		log.Fatal(err)
 	}
 
+	userRepository := repository.NewUserRepository(db)
+	userService := service.NewUserService(userRepository)
+	userController := presentation.NewUserController(userService)
+
 	r.GET("/", presentation.Home)
 	r.GET("/auth/:provider", presentation.SignInWithProvider)
 	r.GET("/auth/:provider/callback", presentation.CallbackHandler)
 	r.GET("/success", presentation.Success)
+
+	r.POST("/register", userController.Register)
 
 	r.Run(":5000")
 }
